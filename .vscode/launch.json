@@ -1,0 +1,95 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OpenOCD",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/IMXRT1050_QSPIFLASH_ROMAPI.elf",
+            "svdFile": "${workspaceFolder}/src/MIMXRT1052/MIMXRT1052.xml",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "request": "launch",
+            //"request": "attach",
+            "configFiles": [
+                "interface/ft4232.cfg",
+                "target/imxrt.cfg"
+            ]
+        },
+        {
+            "name": "OpenOCD - FreeRTOS",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/IMXRT1050_QSPIFLASH_ROMAPI.elf",
+            "svdFile": "${workspaceFolder}/src/MIMXRT1052/MIMXRT1052.xml",
+            "request": "launch",
+            //"request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "rtos": "FreeRTOS",
+            "configFiles": [
+                "interface/ft4232.cfg",
+                "target/imxrt.cfg"
+            ]
+        },
+        {
+            "name": "Remote Launch",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "make",
+            "program": "${workspaceFolder}/build/IMXRT1050_QSPIFLASH_ROMAPI.elf",
+            "request": "launch",
+            "type": "cppdbg",
+            "setupCommands": [
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb",
+            "postRemoteConnectCommands": [
+                {
+                    "description": "Reset target",
+                    "text": "monitor reset"
+                },
+                {
+                    "description": "Download latest firmware",
+                    "text": "load"
+                }
+            ],
+            "miDebuggerServerAddress": "localhost:3333"
+        },
+        {
+            "name": "Remote Attach",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/IMXRT1050_QSPIFLASH_ROMAPI.elf",
+            "request": "launch",
+            "type": "cppdbg",
+            "setupCommands": [
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb",
+            "postRemoteConnectCommands": [
+                {
+                    "description": "Halt target",
+                    "text": "monitor halt"
+                }
+            ],
+            "miDebuggerServerAddress": "localhost:3333"
+        },
+        {
+            "name": "Launch HostAPP",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/HostAPP/",
+            "program": "${workspaceFolder}/HostAPP/app.go",
+            "console": "integratedTerminal",
+            "args": ["-set","192.168.1.100:88"]
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "RT105X",
+            "includePath": [
+                "${workspaceFolder}/src/**"
+            ],
+            "defines": [
+                "__GNUC__",
+                "__FPU_PRESENT",
+                "__USE_CMSIS",
+                "CPU_MIMXRT1052DVL6B",
+                "CODEC_MULTI_ADAPTERS",
+                "SERIAL_PORT_TYPE_UART",
+                "SERIAL_PORT_TYPE_SPI"
+            ],
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m7",
+                "-mfpu=fpv5-d16",
+                "-mfloat-abi=hard",
+                "-specs=nosys.specs",
+                "-specs=nano.specs",
+                "-u _printf_float",
+                "-u _scanf_float"
+            ],
+            "intelliSenseMode": "gcc-arm",
+            // "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "compilerPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc",
+            "cStandard": "c99",
+            "cppStandard": "c++11"
+        }
+    ],
+    "version": 4
+}
