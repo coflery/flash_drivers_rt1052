@@ -39,12 +39,6 @@
             "type": "shell",
             "command": "cd build && make flash",
             "problemMatcher": []
-        },
-        {
-            "label": "make HostAPP",
-            "type": "shell",
-            "command": "cd HostAPP && make",
-            "problemMatcher": []
         }
     ]
 }
