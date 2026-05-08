@@ -10,7 +10,7 @@
         {
             "label": "make",
             "type": "shell",
-            "command": "mkdir -p build && cd build && cmake .. && make -j",
+            "command": "mkdir -p build && cd build && cmake -G \"MinGW Makefiles\" .. && make -j",
             "group": {
                 "kind": "build",
                 "isDefault": true

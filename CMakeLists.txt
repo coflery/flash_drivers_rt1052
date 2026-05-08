@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.12)
-include(cmake/toolchain.cmake)
-include(cmake/version.cmake)
 
 # Define system require
 set(CMAKE_SYSTEM_NAME           Generic)
@@ -8,6 +6,9 @@ set(CMAKE_SYSTEM_PROCESSOR      arm)
 set(CMAKE_C_STANDARD            11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD          14)
+
+include(cmake/toolchain.cmake)
+include(cmake/version.cmake)
 
 # Define project information
 set(PROJECT_NAME        IMXRT1050_QSPIFLASH_ROMAPI)
