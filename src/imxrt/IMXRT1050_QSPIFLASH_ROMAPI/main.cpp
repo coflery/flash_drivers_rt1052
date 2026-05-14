@@ -106,7 +106,7 @@ WorkAreaInfo FLASHPlugin_FindWorkArea(void *endOfStack)
 {
 	InterruptEnabler enabler;
     
-	WorkAreaInfo info = { .Address = endOfStack, .Size = 4096 };
+	WorkAreaInfo info = { .Address = endOfStack, .Size = 16384 };
 	return info;
 }
 
