@@ -12,6 +12,7 @@
 #include "clock_config.h"
 #include "board.h"
 #include "fsl_common.h"
+#include "uart.h"
 #include <FLASHPluginInterface.h>
 #include <FLASHPluginConfig.h>
 
@@ -82,6 +83,7 @@ void FLEXSPI_NorFlash_GetConfig(flexspi_nor_config_t *config)
 
 void error_trap(void)
 {
+	debug_printf("ERROR: TRAP");
 	asm("bkpt 255");
 }
 
@@ -96,6 +98,12 @@ FLASHBankInfo FLASHPlugin_Probe(unsigned base, unsigned size, unsigned width1, u
 		.WriteBlockSize = MINIMUM_PROGRAMMED_BLOCK_SIZE
 	};
 	
+	debug_printf("ProbeBase=0x%08X, ProbeSize=%u", base, size);
+    debug_printf("FlashSize=%lu, SectorSize=%lu, BlockCount=%u",
+				norConfig.memConfig.sflashA1Size,
+				norConfig.sectorSize,
+				result.BlockCount);
+
 	if (norConfig.pageSize != MINIMUM_PROGRAMMED_BLOCK_SIZE)
 		error_trap();
 	
@@ -112,10 +120,14 @@ WorkAreaInfo FLASHPlugin_FindWorkArea(void *endOfStack)
 
 int FLASHPlugin_EraseSectors(unsigned firstSector, unsigned sectorCount)
 {
+	debug_printf("Erase: sector=%u, count=%u, addr=0x%08lX",
+		firstSector, sectorCount, firstSector * norConfig.sectorSize);
+	
 	status_t status = ROM_FLEXSPI_NorFlash_Erase(FlexSpiInstance, &norConfig, firstSector * norConfig.sectorSize, sectorCount * norConfig.sectorSize);
 	if (status != kStatus_Success)
 		error_trap();
 
+	debug_printf("Erase done");
 	return sectorCount;
 }
 
@@ -126,6 +138,8 @@ int FLASHPlugin_Unload()
 
 int FLASHPlugin_DoProgramSync(unsigned startOffset, const void *pData, int bytesToWrite)
 {
+	debug_printf("Program: offset=0x%08X, bytes=%d", startOffset, bytesToWrite);
+	
 	int sectors = bytesToWrite / FLASH_PAGE_SIZE;
 	for (int i = 0; i < sectors; i++)
 	{
@@ -138,6 +152,7 @@ int FLASHPlugin_DoProgramSync(unsigned startOffset, const void *pData, int bytes
 			return i * FLASH_PAGE_SIZE;
 	}
 	
+	debug_printf("Program done");
 	return sectors * FLASH_PAGE_SIZE;
 }
 
@@ -146,6 +161,9 @@ int main(void)
     // BOARD_ConfigMPU();
     BOARD_InitPins();
     BOARD_BootClockRUN();
+    BOARD_InitDebugConsole();
+
+    debug_printf("\n *** Flash ROM API *** ");
 
     memset(&norConfig, 0, sizeof(flexspi_nor_config_t));
 
