@@ -4,13 +4,13 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "cd build && make clean",
+            "command": "cmake --build build --target clean",
             "problemMatcher": []
         },
         {
             "label": "make",
             "type": "shell",
-            "command": "mkdir -p build && cd build && cmake -G \"MinGW Makefiles\" .. && make -j",
+            "command": "cmake -B build -G \"MinGW Makefiles\" && cmake --build build -j",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -37,7 +37,7 @@
         {
             "label": "flash",
             "type": "shell",
-            "command": "cd build && make flash",
+            "command": "cmake --build build --target flash",
             "problemMatcher": []
         }
     ]
