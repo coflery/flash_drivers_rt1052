@@ -106,6 +106,21 @@ void debug_printf(const char *fmt, ...)
         while (!(uart->STAT & LPUART_STAT_TDRE_MASK));
         uart->DATA = (uint8_t)buf[i];
     }
+}
+
+void debug_printfn(const char *fmt, ...)
+{
+    static char buf[128];
+    va_list args;
+    va_start(args, fmt);
+    int n = vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
+
+    for (int i = 0; i < n && i < (int)sizeof(buf); i++)
+    {
+        while (!(uart->STAT & LPUART_STAT_TDRE_MASK));
+        uart->DATA = (uint8_t)buf[i];
+    }
     while (!(uart->STAT & LPUART_STAT_TDRE_MASK));
     uart->DATA = '\r';
     while (!(uart->STAT & LPUART_STAT_TDRE_MASK));

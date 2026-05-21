@@ -10,6 +10,7 @@ extern "C" {
 
 void BOARD_InitDebugConsole(void);
 void debug_printf(const char *fmt, ...);
+void debug_printfn(const char *fmt, ...);
 
 #ifdef __cplusplus
 }
